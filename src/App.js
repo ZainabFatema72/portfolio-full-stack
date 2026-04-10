@@ -1,24 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import Sidebar from './components/Sidebar';
+import Navbar from './components/Navbar';
+import About from './components/About';
+import Resume from './components/Resume';
+import Projects from './components/Projects';
+import Contact from './components/Contact';
+import Certificates from './components/Certificates';
+import './assets/style.css';
 
 function App() {
+  const [activePage, setActivePage] = useState('about');
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <main>
+      {/* Sidebar hamesha left mein rahega */}
+      <Sidebar />
+
+      <div className="main-content">
+        {/* Navbar top right mein fixed rahega */}
+        <Navbar activePage={activePage} setActivePage={setActivePage} />
+
+        {/* Content Area */}
+        <section style={{ display: activePage === 'about' ? 'block' : 'none' }}><About /></section>
+        <section style={{ display: activePage === 'resume' ? 'block' : 'none' }}><Resume /></section>
+        <section style={{ display: activePage === 'projects' ? 'block' : 'none' }}><Projects /></section>
+        <section style={{ display: activePage === 'contact' ? 'block' : 'none' }}><Contact /></section>
+        <section style={{ display: activePage === 'certificates' ? 'block' : 'none' }}><Certificates /></section>
+      </div>
+    </main>
   );
 }
 
