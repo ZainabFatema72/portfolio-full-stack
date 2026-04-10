@@ -1,44 +1,29 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { supabase } from '../supabaseClient'; // Ensure path is correct
 
 const Portfolio = () => {
-  const projects = [
-    {
-      title: 'One Touch Move',
-      category: 'MERN Stack',
-      link: 'https://your-onetouchmove.netlify.app', // Apni link yahan dalein
-      image: '/images/one-touch-move.jpg'
-    },
-    {
-      title: 'Express Travel (Car Rental)',
-      category: 'Web Development | Netlify',
-      link: 'https://express-travel-corporate.netlify.app', // Netlify link
-      image: '/images/car-rental.jpg'
-    },
-    {
-      title: 'International & Domestic Tours',
-      category: 'Web Development | MERN',
-      link: 'https://zainab-tours.render.com', // Render link
-      image: '/images/tour-website.jpg'
-    },
-    {
-      title: 'EmpTrack',
-      category: 'Python & PostgreSQL',
-      link: 'https://emptrack-zainab.netlify.app', 
-      image: '/images/emptrack.jpg'
-    },
-    {
-      title: 'Task Manager',
-      category: 'MERN Stack',
-      link: 'https://github.com/ZainabFatema72/task-manager',
-      image: '/images/task-manager.jpg'
-    },
-    {
-      title: 'Order Management',
-      category: 'Microservices | Docker',
-      link: '#', 
-      image: '/images/order-management.jpg'
-    }
-  ];
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('projects')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        if (error) throw error;
+        if (data) setProjects(data);
+      } catch (err) {
+        console.error("Error fetching projects:", err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchProjects();
+  }, []);
 
   return (
     <article className="projects active">
@@ -46,23 +31,29 @@ const Portfolio = () => {
         <h2 className="h2 article-title">Projects</h2>
       </header>
 
-      <ul className="project-list">
-        {projects.map((project, index) => (
-          <li className="project-item active" key={index}>
-            <a href={project.link} target="_blank" rel="noreferrer">
-              <figure className="project-img">
-                <div className="project-item-icon-box">
-                  <ion-icon name="eye-outline"></ion-icon>
-                </div>
-                <img src={project.image} alt={project.title} loading="lazy" />
-              </figure>
+      {loading ? (
+        <p style={{ color: 'var(--white-2)' }}>Loading Projects...</p>
+      ) : (
+        <ul className="project-list">
+          {projects.map((project) => (
+            <li className="project-item active" key={project.id}>
+              {/* project_link column name database ke hisab se check karein */}
+              <a href={project.project_link || "#"} target="_blank" rel="noreferrer">
+                <figure className="project-img">
+                  <div className="project-item-icon-box">
+                    <ion-icon name="eye-outline"></ion-icon>
+                  </div>
+                  {/* image_url column name database se match hona chahiye */}
+                  <img src={project.image_url} alt={project.title} loading="lazy" />
+                </figure>
 
-              <h3 className="project-title">{project.title}</h3>
-              <p className="project-category">{project.category}</p>
-            </a>
-          </li>
-        ))}
-      </ul>
+                <h3 className="project-title">{project.title}</h3>
+                <p className="project-category">{project.category}</p>
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
     </article>
   );
 };

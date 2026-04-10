@@ -1,19 +1,23 @@
 import React from 'react';
 
-const Sidebar = () => {
+const Sidebar = ({ setActivePage }) => {
   return (
     <aside className="sidebar">
       <div className="sidebar-info">
-        <figure className="avatar-box">
-          <img src="/images/zainabavtar.png" alt="Zainab Fatema" width="80" />
-        </figure>
+        {/* Avatar click karne par activePage 'admin' ho jayega */}
+        <figure 
+  className="avatar-box" 
+  onClick={() => setActivePage('admin')} 
+  style={{ cursor: 'pointer' }}
+>
+  {/* Spelling Note: zainabavtar (aapke screenshot ke hisaab se) */}
+  <img src="/images/zainabavtar.png" alt="Zainab Fatema" width="80" />
+</figure>
 
         <div className="info-content">
           <h1 className="name" title="Zainab Fatema">Zainab Fatema</h1>
           <p className="title">Full Stack Developer</p>
         </div>
-
-       
       </div>
 
       <div className="sidebar-info_more">
@@ -36,7 +40,6 @@ const Sidebar = () => {
             </div>
           </li>
 
-          {/* Date of Birth Section */}
           <li className="contact-item">
             <div className="icon-box"><ion-icon name="calendar-outline"></ion-icon></div>
             <div className="contact-info">
@@ -53,7 +56,7 @@ const Sidebar = () => {
             </div>
           </li>
         </ul>
-{/* --- Download Resume Button --- */}
+
         <div className="separator"></div>
         <div style={{ textAlign: 'center', margin: '20px 0' }}>
           <a href="/ZAINAB.pdf" download="Zainab_Fatema_Resume.pdf" className="form-btn" style={{ width: '100%', justifyContent: 'center', textDecoration: 'none' }}>
@@ -76,6 +79,13 @@ const Sidebar = () => {
           <li className="social-item">
             <a href="https://www.linkedin.com/in/zainab-fatema/" target="_blank" rel="noreferrer" className="social-link">
               <ion-icon name="logo-linkedin"></ion-icon>
+            </a>
+          </li>
+
+          {/* Naya Email Social Icon (WhatsApp se pehle) */}
+          <li className="social-item">
+            <a href="mailto:zainabfatema537@gmail.com" className="social-link">
+              <ion-icon name="mail-outline"></ion-icon>
             </a>
           </li>
 

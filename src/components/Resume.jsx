@@ -1,61 +1,67 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { supabase } from '../supabaseClient';
 
 const Resume = () => {
+  const [experience, setExperience] = useState([]);
+  const [skills, setSkills] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchResumeData = async () => {
+      try {
+        // 1. Fetch Dynamic Experience (Type: experience)
+        const { data: expData } = await supabase
+          .from('resume_entries')
+          .select('*')
+          .eq('type', 'experience')
+          .order('created_at', { ascending: false });
+
+        // 2. Fetch Dynamic Skills
+        const { data: skillData } = await supabase
+          .from('skills')
+          .select('*')
+          .order('percentage', { ascending: false });
+
+        if (expData) setExperience(expData);
+        if (skillData) setSkills(skillData);
+      } catch (err) {
+        console.error("Error fetching resume data:", err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchResumeData();
+  }, []);
+
   return (
     <article className="resume active">
       <header>
         <h2 className="h2 article-title">Resume</h2>
       </header>
 
-      {/* --- Experience Section --- */}
+      {/* --- Experience Section (DYNAMIC) --- */}
       <section className="timeline">
         <div className="title-wrapper">
           <div className="icon-box"><ion-icon name="briefcase-outline"></ion-icon></div>
           <h3 className="h3">Experience</h3>
         </div>
         <ol className="timeline-list">
-          <li className="timeline-item">
-            <h4 className="h4 timeline-item-title">Junior Software Developer Intern</h4>
-            <span>Jan 2026 — Present | Royals Webtech, Nagpur</span>
-            <p className="timeline-text">
-              • Developing full-stack applications using **MERN Stack**, **Supabase**, and **PostgreSQL**.
-            </p>
-            <p className="timeline-text">
-              • Implementing **Payment Gateway** integration and automated email systems via **Google App Script**.
-            </p>
-            <p className="timeline-text">
-              • **Direct Client Interaction:** Engaging with clients to gather requirements and providing technical solutions.
-            </p>
-            <p className="timeline-text">
-              • Working on real-time **Notification Systems** and managing database migrations.
-            </p>
-          </li>
+          {loading ? <p style={{color: 'gray'}}>Loading Experience...</p> : 
+            experience.map((item) => (
+              <li className="timeline-item" key={item.id}>
+                <h4 className="h4 timeline-item-title">{item.title}</h4>
+                <span>{item.duration} | {item.sub_title}</span>
+                <p className="timeline-text" style={{ whiteSpace: 'pre-line' }}>
+                  {item.description}
+                </p>
+              </li>
+            ))
+          }
         </ol>
       </section>
 
-      {/* --- Projects Section --- */}
-      <section className="timeline">
-        <div className="title-wrapper">
-          <div className="icon-box"><ion-icon name="code-working-outline"></ion-icon></div>
-          <h3 className="h3">Featured Projects</h3>
-        </div>
-        <ol className="timeline-list">
-          <li className="timeline-item">
-            <h4 className="h4 timeline-item-title">AlphaDevs Microservices (E-commerce)</h4>
-            <p className="timeline-text">Built a scalable architecture using **Docker**, **Kafka**, **Redis**, and **Nginx** with an API Gateway pattern.</p>
-          </li>
-          <li className="timeline-item">
-            <h4 className="h4 timeline-item-title">One Touch Move (Health-Tech)</h4>
-            <p className="timeline-text">MERN stack app with Firebase Auth for location-based doctor search and appointments.</p>
-          </li>
-          <li className="timeline-item">
-            <h4 className="h4 timeline-item-title">Express Travel & Tours</h4>
-            <p className="timeline-text">Vehicle booking system with dynamic catalogs and administrative dashboards.</p>
-          </li>
-        </ol>
-      </section>
-
-      {/* --- Education Section --- */}
+      {/* --- Education Section (HAMESHA STATIC - Jaisa aapne kaha) --- */}
       <section className="timeline">
         <div className="title-wrapper">
           <div className="icon-box"><ion-icon name="book-outline"></ion-icon></div>
@@ -77,32 +83,33 @@ const Resume = () => {
         </ol>
       </section>
 
-      {/* --- Technical Skills --- */}
+      {/* --- Technical Skills (DYNAMIC - Progress Bars) --- */}
       <section className="skill">
         <h3 className="h3 skills-title">Technical Expertise</h3>
         <ul className="skills-list content-card">
-          <li className="skills-item">
-            <div className="title-wrapper"><h5 className="h5">Full Stack (MERN, Supabase, PHP)</h5><data value="85">85%</data></div>
-            <div className="skill-progress-bg"><div className="skill-progress-fill" style={{ width: '85%' }}></div></div>
-          </li>
-          <li className="skills-item">
-            <div className="title-wrapper"><h5 className="h5">Cloud & DevOps (AWS, Docker, Azure)</h5><data value="70">70%</data></div>
-            <div className="skill-progress-bg"><div className="skill-progress-fill" style={{ width: '70%' }}></div></div>
-          </li>
-          <li className="skills-item">
-            <div className="title-wrapper"><h5 className="h5">Backend Tools (Kafka, Redis, App Script)</h5><data value="65">65%</data></div>
-            <div className="skill-progress-bg"><div className="skill-progress-fill" style={{ width: '65%' }}></div></div>
-          </li>
+          {loading ? <p style={{color: 'gray'}}>Loading Skills...</p> : 
+            skills.map((skill) => (
+              <li className="skills-item" key={skill.id}>
+                <div className="title-wrapper">
+                  <h5 className="h5">{skill.name}</h5>
+                  <data value={skill.percentage}>{skill.percentage}%</data>
+                </div>
+                <div className="skill-progress-bg">
+                  <div className="skill-progress-fill" style={{ width: `${skill.percentage}%` }}></div>
+                </div>
+              </li>
+            ))
+          }
         </ul>
       </section>
 
-      {/* --- Soft Skills & Languages --- */}
+      {/* --- Soft Skills & Languages (HAMESHA STATIC) --- */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px', marginTop: '30px' }}>
         <section className="skill">
           <h3 className="h3 skills-title">Soft Skills</h3>
           <ul className="skills-list">
             <li className="timeline-text">• Client Communication & Interaction</li>
-            <li className="timeline-text">• Team Leadership (Science Community President)</li>
+            <li className="timeline-text">• Team Leadership (Science Community)</li>
             <li className="timeline-text">• Problem Solving & Analytical Thinking</li>
           </ul>
         </section>
