@@ -2,81 +2,46 @@ import React from 'react';
 
 const About = () => {
   return (
-    <>
-      <header><h2 className="h2 article-title">About me</h2></header>
-      <section className="about-text">
-       <b> <p>
-         Hi, I’m Zainab Fatema — a passionate Full-Stack Developer and MCA student based in Amravati, India.
+    <article className="animate-fadeIn">
+      <header className="relative pb-2 mb-5">
+        <h2 className="text-3xl font-semibold text-white capitalize leading-tight">About me</h2>
+        <div className="absolute bottom-0 left-0 w-8 h-1 bg-orange-yellow-crayola rounded-full"></div>
+      </header>
 
-         </p></b>
-         <br></br><p>
-I love building modern, scalable, and user-centric web applications using the MERN stack, and I'm constantly learning new technologies to make my work more efficient and impactful.  </p><br></br>
+      <section className="text-light-gray-70 text-sm leading-relaxed space-y-4">
+        <p className="font-bold text-white text-base">
+          Hi, I’m Zainab Fatema — a passionate Full-Stack Developer and MCA student based in Amravati, India.
+        </p>
         <p>
-         With hands-on experience in creating real-world college + personal projects, I enjoy turning ideas into practical, functional, and beautifully structured solutions.</p> <p>
-My core focus is on clean code, problem-solving, and building meaningful digital experiences. </p><br></br>
-
-<p>During my journey in MCA, I've worked on multiple team and individual projects — from AI-based healthcare tools to microservices-based systems — which helped me gain strong experience in frontend, backend, databases, and deployment workflows.</p>     </section>
-
-<section className="service">
-  <h3 className="h3 service-title">What I'm Doing</h3>
-  
-  <ul className="service-list">
-    {/* --- Web Development Card (MERN Stack) --- */}
-    <li className="service-item">
-      <div className="service-icon-box">
-        {/* Richard wale gold glowing style ke liye ye color style zaroori hai */}
-        <ion-icon name="code-slash-outline" style={{
-          fontSize: '40px', 
-          color: 'var(--orange-yellow-crayola)', 
-          margin: 'auto'
-        }}></ion-icon>
-      </div>
-      <div className="service-content-box">
-        <h4 className="h4 service-item-title">Web Development</h4>
-        <p className="service-item-text">
-          I build responsive, scalable, and dynamic websites using MERN stack (MongoDB, Express, React, Node.js).
+          I love building modern, scalable, and user-centric web applications using the MERN stack.
         </p>
-      </div>
-    </li>
-
-    {/* --- Backend Architecture Card (Microservices & Docker) --- */}
-    <li className="service-item">
-      <div className="service-icon-box">
-        {/* Richard ke look jaisa unique server icon */}
-        <ion-icon name="server-outline" style={{
-          fontSize: '40px', 
-          color: 'var(--orange-yellow-crayola)', 
-          margin: 'auto'
-        }}></ion-icon>
-      </div>
-      <div className="service-content-box">
-        <h4 className="h4 service-item-title">Backend Architecture</h4>
-        <p className="service-item-text">
-          Experience in Microservices, Docker, and secure REST APIs with JWT authentication.
+        <p>
+          My core focus is on clean code, problem-solving, and building meaningful digital experiences.
         </p>
-      </div>
-    </li>
+      </section>
 
-    {/* --- Database Management Card (MySQL, MongoDB) --- */}
-    <li className="service-item">
-      <div className="service-icon-box">
-        {/* Database ke liye clear "layers" icon */}
-        <ion-icon name="layers-outline" style={{
-          fontSize: '40px', 
-          color: 'var(--orange-yellow-crayola)', 
-          margin: 'auto'
-        }}></ion-icon>
-      </div>
-      <div className="service-content-box">
-        <h4 className="h4 service-item-title">Database Management</h4>
-        <p className="service-item-text">
-          Managing complex data migrations and organizing tables efficiently for large projects.
-        </p>
-      </div>
-    </li>
-  </ul>
-</section>
-    </>
+      <section className="mt-8">
+        <h3 className="text-2xl font-semibold text-white mb-6">What I'm Doing</h3>
+        
+        <ul className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          {[
+            { icon: "code-slash-outline", title: "Web Development", text: "I build responsive websites using MERN stack." },
+            { icon: "server-outline", title: "Backend Architecture", text: "Experience in Microservices, Docker, and REST APIs." },
+            { icon: "layers-outline", title: "Database Management", text: "Managing complex data migrations and table organization." }
+          ].map((service, index) => (
+            <li key={index} className="bg-gradient-onyx border border-jet p-6 rounded-2xl flex items-start gap-4 transition-all duration-500">
+              <div className="text-4xl text-orange-yellow-crayola">
+                <ion-icon name={service.icon}></ion-icon>
+              </div>
+              <div>
+                <h4 className="text-white font-medium mb-2">{service.title}</h4>
+                <p className="text-light-gray-70 text-sm">{service.text}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
+    </article>
   );
 };
 

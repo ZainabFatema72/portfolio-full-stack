@@ -1,13 +1,56 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Dark Mode Variables (Default) */
+  --bg-body: #121212;
+  --bg-card: #1e1e1f;
+  --text-main: #ffffff;
+  --text-sub: #d6d6d6;
+  --border-jet: #383838;
+  --bg-gradient-onyx: linear-gradient(to bottom right, #404040 3%, #303030 97%);
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+html.light {
+  /* High Contrast Light Mode Variables */
+  --bg-body: #f3f4f6;
+  --bg-card: #ffffff;
+  --text-main: #000000;      /* Pure Black for headings */
+  --text-sub: #1a1a1b;       /* Very Dark Gray for body */
+  --border-jet: #d1d5db;     /* Softer borders for light mode */
+  --bg-gradient-onyx: linear-gradient(to bottom right, #ffffff 3%, #f3f4f6 97%);
+}
+
+body {
+  background-color: var(--bg-body);
+  color: var(--text-main);
+  transition: all 0.3s ease;
+}
+
+/* Connect Tailwind classes to our CSS Variables */
+.bg-eerie-black-2 { background-color: var(--bg-card) !important; }
+.bg-smoky-black { background-color: var(--bg-body) !important; }
+.border-jet { border-color: var(--border-jet) !important; }
+.text-white, .text-white-2 { color: var(--text-main) !important; }
+.text-light-gray, .text-light-gray-70 { color: var(--text-sub) !important; }
+.bg-gradient-onyx { background: var(--bg-gradient-onyx) !important; }
+
+/* Global Light Mode Heading Sharpness */
+html.light h1, html.light h2, html.light h3, html.light h4, html.light strong {
+  color: #000000 !important;
+  font-weight: 800;
+}
+/* index.css ke end mein add karein */
+html.light nav {
+  background-color: #ffffff !important;
+  border-color: #e5e7eb !important;
+}
+
+html.light nav button {
+  color: #1a1a1a; /* Inactive buttons dark black/gray ho jayenge */
+}
+
+html.light nav button.text-orange-yellow-crayola {
+  color: #f59e0b !important; /* Active button gold hi rahega */
 }
