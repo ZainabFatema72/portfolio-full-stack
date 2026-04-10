@@ -4,7 +4,7 @@ import { supabase } from '../supabaseClient';
 const Resume = () => {
   const [experience, setExperience] = useState([]);
   const [skills, setSkills] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchResumeData = async () => {
